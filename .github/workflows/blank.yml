@@ -28,7 +28,6 @@ jobs:
         run: |
           echo "Adding remote backup repository"
           git remote add backup https://${{ secrets.ZERO }}@github.com/TheZeromy/backup-repo.git
-          git remote add backup https://${{ secrets.ZERO }}@github.com/7eromy/backup-repo.git
           git remote -v
           
       - name: Pull changes from backup repository
