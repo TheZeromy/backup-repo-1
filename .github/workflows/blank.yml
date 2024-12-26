@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Fetch all branches
-          token: ${{ secrets.ZERO }}
+          token: ${{ secrets.ZERO_BACK }}
 
       - name: Set up Git
         run: |
