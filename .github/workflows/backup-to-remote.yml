@@ -30,15 +30,6 @@ jobs:
           git remote add backup https://${{ secrets.ZERO_REM }}@github.com/7eromy/backup-repo.git
           git remote -v
           
-      - name: Pull changes from backup repository
-        run: |
-          echo "Pulling changes from backup repository"
-          git pull backup main --rebase || echo "No changes to pull"
-      
-      - name: Check PAT permissions
-        run: |
-          echo "Checking PAT permissions"
-          curl -H "Authorization: token ${{ secrets.ZERO_REM }}" https://api.github.com/user/repos
       - name: Push to backup repository
         run: |
           echo "Pushing to remote repository"
