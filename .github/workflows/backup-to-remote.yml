@@ -1,0 +1,45 @@
+name: Sync Repository
+
+on:
+  push:
+    branches:
+      - main # Replace with the main branch of your repository
+  schedule:
+    - cron: '0 0 * * *' # Daily at midnight (UTC)
+
+jobs:
+  sync-repo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all branches
+          token: ${{ secrets.ZERO }}
+
+      - name: Set up Git
+        run: |
+          echo "Setting up Git configuration"
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          
+      - name: Add backup remote
+        run: |
+          echo "Adding remote backup repository"
+          git remote add backup https://${{ secrets.ZERO }}@github.com/7eromy/backup-repo.git
+          git remote -v
+          
+      - name: Pull changes from backup repository
+        run: |
+          echo "Pulling changes from backup repository"
+          git pull backup main --rebase || echo "No changes to pull"
+      
+      - name: Check PAT permissions
+        run: |
+          echo "Checking PAT permissions"
+          curl -H "Authorization: token ${{ secrets.ZERO }}" https://api.github.com/user/repos
+      - name: Push to backup repository
+        run: |
+          echo "Pushing to remote repository"
+          git push backup main --force
