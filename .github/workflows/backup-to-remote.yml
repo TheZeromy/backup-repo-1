@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Fetch all branches
-          token: ${{ secrets.ZERO }}
+          token: ${{ secrets.ZERO_REM }}
 
       - name: Set up Git
         run: |
@@ -27,7 +27,7 @@ jobs:
       - name: Add backup remote
         run: |
           echo "Adding remote backup repository"
-          git remote add backup https://${{ secrets.ZERO }}@github.com/7eromy/backup-repo.git
+          git remote add backup https://${{ secrets.ZERO_REM }}@github.com/7eromy/backup-repo.git
           git remote -v
           
       - name: Pull changes from backup repository
@@ -38,7 +38,7 @@ jobs:
       - name: Check PAT permissions
         run: |
           echo "Checking PAT permissions"
-          curl -H "Authorization: token ${{ secrets.ZERO }}" https://api.github.com/user/repos
+          curl -H "Authorization: token ${{ secrets.ZERO_REM }}" https://api.github.com/user/repos
       - name: Push to backup repository
         run: |
           echo "Pushing to remote repository"
